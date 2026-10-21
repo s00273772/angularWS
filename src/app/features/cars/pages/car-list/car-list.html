@@ -3,9 +3,12 @@
 @if(cars$ | async; as cars){
 
     <ul>
-        @for (car of cars; track car._id){
-            <li>{{car.make}} {{car._id}}</li>
+        <div class="grid">
+            @for (car of cars; track car._id){
+            <app-car-card [car]="car"/>
         }
+        </div>
+        
     </ul>
     } @else{
         Loading cars...
