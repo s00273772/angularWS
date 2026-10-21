@@ -2,6 +2,8 @@ import { Component, inject } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Car } from '../../models/car.model';
 import { ReactiveFormsModule } from '@angular/forms';
+import { CarService } from '../../services/car.service';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -12,6 +14,11 @@ import { ReactiveFormsModule } from '@angular/forms';
 })
 export class CarForm {
   private formBuilder = inject(FormBuilder);
+  private carService = inject(CarService);
+  private router = inject(Router)
+
+  
+  
 
   carForm = this.formBuilder.group({
     make: ['', Validators.required],
@@ -26,6 +33,7 @@ export class CarForm {
     this.carService.addCar(carData).subscribe({
       next: (response) => {
         console.log('Car added successfully:', response);
+        this.router.navigate(['/cars']); 
       },
       error: (error)=>{
         console.error('Error adding car:', error);
