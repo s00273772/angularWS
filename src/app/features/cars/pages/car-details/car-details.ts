@@ -1,7 +1,11 @@
 import { Component, input, inject, signal } from '@angular/core';
 import { CarService } from '../../services/car.service';
 import { Car } from '../../models/car.model';
-
+import { LoadState } from '../../../../shared/load-state';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { toObservable} from '@angular/core/rxjs-interop';
+import { switchMap } from 'rxjs';
+import { withLoadState } from '../../../../shared/load-state';
 
 
 @Component({
@@ -15,11 +19,14 @@ export class CarDetails {
 
   readonly id = input.required<string>();
 
-  readonly car = signal<Car | null>(null);
+  readonly initial: LoadState<Car> = {status: 'loading'};
 
-  ngOnInit(): void{
-    this.carService.getCarById(this.id()).subscribe(car => {
-      this.car.set(car);
-    });
-  }
+  state = toSignal(
+    toObservable(this.id)
+    .pipe(
+      switchMap((id) => withLoadState(this.carService.getCarById(id))),
+    ),
+    {initialValue: this.initial,}
+
+  );
 }
