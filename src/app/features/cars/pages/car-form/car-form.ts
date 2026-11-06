@@ -5,11 +5,14 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { CarService } from '../../services/car.service';
 import { Router, RouterLink } from '@angular/router';
 import { signal } from '@angular/core';
-
+import { MatButtonModule } from '@angular/material/button';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatCardModule } from '@angular/material/card';
 
 @Component({
   selector: 'app-car-form',
-  imports: [ReactiveFormsModule, RouterLink],
+  imports: [ReactiveFormsModule, RouterLink, MatButtonModule, MatFormFieldModule, MatInputModule, MatCardModule],
   templateUrl: './car-form.html',
   styleUrl: './car-form.scss',
 })
