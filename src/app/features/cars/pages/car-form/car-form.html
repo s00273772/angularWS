@@ -57,11 +57,11 @@
     }
     
     <div class="button-group">
-        <button type="submit" [disabled]="saving()">
+        <button matButton="filled" type="submit" [disabled]="saving()">
             {{saving() ? 'Saving...' : 'Save car'}}
         </button>
         <p></p>
-        <a routerLink="/cars">Cancel</a>
+        <a matButton routerLink="/cars">Cancel</a>
     </div>
     
     
