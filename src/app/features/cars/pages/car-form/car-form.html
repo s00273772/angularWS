@@ -27,6 +27,29 @@
         </mat-form-field>
     </div>
     
+    @if(carForm.controls.make.hasError('required')){
+        <mat-error>Make is required</mat-error>
+    }
+    @else if(carForm.controls.make.hasError('minlength')){
+        <mat-error>Make must be at least 2 characters</mat-error>
+    }
+    @else if(carForm.controls.make.hasError('maxlength')){
+        <mat-error>Make must be 30 characters or fewer</mat-error>
+    }
+
+    @if(carForm.controls.model.hasError('required')){
+        <mat-error>Model is required</mat-error>
+    }
+    @else if(carForm.controls.model.hasError('maxlength')){
+        <mat-error>Model must be 30 characters or fewer</mat-error>
+    }
+
+    @if(carForm.controls.year.hasError('min')){
+        <mat-error>Year must be 1950 or after</mat-error>
+    }
+    @else if(carForm.controls.year.hasError('max')){
+        <mat-error>Year must not be greater than the next year</mat-error>
+    }
 
     <!--Action Buttons-->
     @if(saveError(); as message){ 
