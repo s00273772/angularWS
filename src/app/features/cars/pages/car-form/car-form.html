@@ -24,6 +24,10 @@
             @if(carForm.controls.make.hasError('blank')){
                 <mat-error>Make cannot only be spaces</mat-error>
             }
+
+            @if(carForm.controls.make.hasError('forbidden')){
+                <mat-error>Make cannot be 'test'</mat-error>
+            }
             
         </mat-form-field>
     </div>

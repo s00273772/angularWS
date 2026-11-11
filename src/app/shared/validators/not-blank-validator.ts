@@ -1,4 +1,4 @@
-import { AbstractControl, ValidationErrors } from "@angular/forms";
+import { AbstractControl, ValidationErrors, ValidatorFn } from "@angular/forms";
 
 //Fails if the value is a string made of only whitespace
 export function notBlank(control: AbstractControl): ValidationErrors | null{
@@ -8,3 +8,16 @@ export function notBlank(control: AbstractControl): ValidationErrors | null{
     }
     return null;
 }
+
+export function forbiddenValue(word: string): ValidatorFn{
+    return (control: AbstractControl): ValidationErrors | null => {
+        const value = control.value;
+        console.log(value)
+        if(typeof value === 'string' && value === "test"){
+            return {forbidden: true};
+        }
+
+        return null;
+    }
+} 
+
