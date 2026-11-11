@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Car, CreateCarDto } from '../../models/car.model';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -11,6 +11,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatCardModule } from '@angular/material/card';
 import { MatProgressBar } from '@angular/material/progress-bar';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { input } from '@angular/core';
 
 @Component({
   selector: 'app-car-form',
@@ -18,7 +19,9 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   templateUrl: './car-form.html',
   styleUrl: './car-form.scss',
 })
-export class CarForm {
+
+
+export class CarForm implements OnInit {
   private formBuilder = inject(FormBuilder);
   private carService = inject(CarService);
   private router = inject(Router);
@@ -28,6 +31,18 @@ export class CarForm {
   saveError = signal<string | null>(null);
   
   readonly currentYear = new Date().getFullYear();
+  readonly id = input<string>();
+
+  ngOnInit(): void{
+    const id = this.id();
+    if (!id) return;
+
+    this.carService.getCarById(id).subscribe({
+      next: (car) =>
+        this.carForm.patchValue({make: car.make, model: car.model, year: car.year ?? null}),
+      error: (err: Error) => this.saveError.set(err.message),
+    });
+  }
 
   carForm = this.formBuilder.nonNullable.group({
     make: ['', [Validators.required, Validators.minLength(2),
@@ -65,7 +80,24 @@ export class CarForm {
       }
     });
     
-    
+   const id = this.id();
+   const request = id ? this.carService.updateCar(id, newCar)
+   : this.carService.addCar(newCar);
+
+   request.subscribe({
+      next: (response) => {
+        this.snackBar.open(`${newCar.make} ${newCar.model} saved`, 'Close', {
+          duration: 10000
+        });
+        console.log('Car added successfully:', response);
+        this.router.navigate(['/cars']); 
+      },
+      error: (error)=>{
+        this.saveError.set(error.message);
+        this.saving.set(false);
+        this.carForm.enable();
+      }
+    });
   }
 
   

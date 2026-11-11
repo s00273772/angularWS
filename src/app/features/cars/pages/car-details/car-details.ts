@@ -6,11 +6,16 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { toObservable} from '@angular/core/rxjs-interop';
 import { switchMap } from 'rxjs';
 import { withLoadState } from '../../../../shared/load-state';
+import { MatButtonModule } from '@angular/material/button';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatCardModule } from '@angular/material/card';
+import { RouterLink } from '@angular/router';
 
 
 @Component({
   selector: 'app-car-details',
-  imports: [],
+  imports: [RouterLink, MatButtonModule, MatFormFieldModule, MatInputModule, MatCardModule],
   templateUrl: './car-details.html',
   styleUrl: './car-details.scss',
 })

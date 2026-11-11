@@ -1,7 +1,7 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
-import { Car, CreateCarDto } from '../models/car.model';
+import { Car, CreateCarDto, UpdateCarDto } from '../models/car.model';
 import { catchError } from 'rxjs';
 
 @Injectable({
@@ -29,5 +29,8 @@ export class CarService {
     .post<Car>(this.apiUrl, car);
   }
 
+  updateCar(id: string, changes: UpdateCarDto): Observable<Car>{
+    return this.http.put<Car>(`${this.apiUrl}/${id}`, changes);
+  }
  
 }

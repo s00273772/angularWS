@@ -13,7 +13,9 @@
     <h2>{{s.data.make}} {{s.data.model}}</h2>
     @if(s.data.year){
         <p>Year: {{s.data.year}}</p>
+        
     }
+    <a matButton="filled" [routerLink]="['/cars', s.data._id, 'edit']">Edit</a>
 }
 
 
