@@ -67,21 +67,7 @@ export class CarForm implements OnInit {
 
     this.carForm.disable();
 
-    this.carService.addCar(newCar).subscribe({
-      next: (response) => {
-        this.snackBar.open(`${newCar.make} ${newCar.model} saved`, 'Close', {
-          duration: 10000
-        });
-        console.log('Car added successfully:', response);
-        this.router.navigate(['/cars']); 
-      },
-      error: (error)=>{
-        this.saveError.set(error.message);
-        this.saving.set(false);
-        this.carForm.enable();
-      }
-    });
-    
+   
    const id = this.id();
    const request = id ? this.carService.updateCar(id, newCar)
    : this.carService.addCar(newCar);
