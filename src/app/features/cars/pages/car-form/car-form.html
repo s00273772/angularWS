@@ -20,6 +20,11 @@
             @else if(carForm.controls.make.hasError('maxlength')){
                 <mat-error>Make must be 30 characters or fewer</mat-error>
             }
+
+            @if(carForm.controls.make.hasError('blank')){
+                <mat-error>Make cannot only be spaces</mat-error>
+            }
+            
         </mat-form-field>
     </div>
 
@@ -34,6 +39,10 @@
             }
             @else if(carForm.controls.model.hasError('maxlength')){
                 <mat-error>Model must be 30 characters or fewer</mat-error>
+            }
+
+            @if(carForm.controls.model.hasError('blank')){
+                <mat-error>Model cannot only be spaces</mat-error>
             }
         </mat-form-field>
     </div>
