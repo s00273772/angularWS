@@ -45,7 +45,7 @@ export class AuthCustomService {
       tap(res => {
         this._token.set(res.token);
         this._currentUser.set(res.user);
-        this.startExpiryTimer(res.token);
+         this.startExpiryTimer(res.token);
       }),
       map(res => res.user)
     );
