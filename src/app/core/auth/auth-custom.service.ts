@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, map, tap } from 'rxjs';
 import { LoginUserDto, RegisterUserDto, User } from '../models/user';
 import { Router } from '@angular/router';
+import { environment } from '../../../environments/environment.development';
 
 interface AuthResponse{
   token: string;
@@ -15,7 +16,7 @@ interface AuthResponse{
 export class AuthCustomService {
 
   //this should be read from an env variable 
-  private readonly apiUrl = 'http://localhost:3000/api/v1/auth';
+  private readonly apiUrl = `${environment.apiUri}/auth`;
 
   private http = inject(HttpClient);
   private router = inject(Router);

@@ -3,6 +3,7 @@ import { inject, Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { Car, CreateCarDto, UpdateCarDto } from '../models/car.model';
 import { catchError } from 'rxjs';
+import { environment } from '../../../../environments/environment.development';
 
 @Injectable({
   providedIn: 'root',
@@ -11,8 +12,8 @@ export class CarService {
 
   private http = inject(HttpClient);
 
-  //should be read from env variable
-  private apiUrl = 'http://localhost:3000/api/v1/cars';
+  
+  private apiUrl = `${environment.apiUri}/cars`;
 
   getCars(): Observable<Car[]>{
     return this.http
