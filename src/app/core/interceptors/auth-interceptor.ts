@@ -13,7 +13,7 @@ export const AuthInterceptor: HttpInterceptorFn = (req, next) => {
 
   const jwt = authService.token;
 
-  // we don't want to attach our token to a request to any other server
+  //  we don't want to attach our token to a request to any other server
   // so we check that the request is to our own api
   // if so we create a new request with the Bearer token
   // if not we just copy the existing request.
