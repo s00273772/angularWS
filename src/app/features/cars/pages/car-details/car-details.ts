@@ -12,6 +12,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatCardModule } from '@angular/material/card';
 import { RouterLink } from '@angular/router';
 import { Router } from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 
 @Component({
@@ -28,6 +29,8 @@ export class CarDetails {
   readonly initial: LoadState<Car> = {status: 'loading'};
 
   private readonly router = inject(Router);
+  private snackBar = inject(MatSnackBar);
+
   readonly deleting = signal(false);
   readonly deleteError = signal<string | null>(null);
 
@@ -49,9 +52,16 @@ export class CarDetails {
     this.carService.deleteCar(car._id).subscribe({
       next: () => this.router.navigate(['/cars']),
       error: (err: Error) => {
-        this.deleteError.set(err.message);
+        this.openErrorSnackBar(err.message)
         this.deleting.set(false);
       }
+    });
+  }
+
+  private openErrorSnackBar(message: string): void{
+    this.snackBar.open(message, 'Dismiss', {
+      duration: 15000,
+      panelClass: ['error-snackbar']
     });
   }
 }
