@@ -1,0 +1,39 @@
+<h1>Register</h1>
+
+<form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="register-form">
+    <mat-form-field appearance="fill">
+    <mat-label>Name</mat-label>
+    <input matInput formControlName="name" autocomplete="name">
+    @if (registerForm.controls.name.hasError('required')) {
+      <mat-error>Name is required</mat-error>
+    }
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Email</mat-label>
+    <input matInput formControlName="email" type="email" autocomplete="email">
+    @if (registerForm.controls.email.hasError('required')) {
+      <mat-error>Email is required</mat-error>
+    } @else if (registerForm.controls.email.hasError('email')) {
+      <mat-error>Enter a valid email address</mat-error>
+    }
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Password</mat-label>
+    <input matInput formControlName="password" type="password" autocomplete="new-password">
+    @if (registerForm.controls.password.hasError('minlength')) {
+      <mat-error>Password must be at least 8 characters long</mat-error>
+    }
+  </mat-form-field>
+
+  <!-- Action Buttons -->
+  @if (saveError(); as message) { <p role="alert">{{ message }}</p> }
+
+  <div class="button-group">
+    <button matButton="filled" type="submit" [disabled]="saving()">
+      {{ saving() ? 'Saving...' : 'Save car' }}
+    </button>
+    <a matButton routerLink="/">Cancel</a>
+  </div>
+</form>
