@@ -13,6 +13,7 @@ import { MatCardModule } from '@angular/material/card';
 import { RouterLink } from '@angular/router';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { AuthCustomService } from '../../../../core/auth/auth-custom.service';
 
 
 @Component({
@@ -64,4 +65,7 @@ export class CarDetails {
       panelClass: ['error-snackbar']
     });
   }
+
+  private authService = inject(AuthCustomService);
+  isAuthenticated = this.authService.isAuthenticated;
 }
