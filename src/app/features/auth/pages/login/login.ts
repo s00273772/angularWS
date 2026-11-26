@@ -1,6 +1,6 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { finalize } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatButtonModule } from '@angular/material/button';
@@ -15,13 +15,20 @@ import { LoginUserDto } from '../../../../core/models/user';
   templateUrl: './login.html',
   styleUrl: './login.scss',
 })
-export class Login {
+export class Login implements OnInit {
   private fb = inject(NonNullableFormBuilder);
   private authService = inject(AuthCustomService);
   private router = inject(Router);
   private snackBar = inject(MatSnackBar);
 
   readonly submitting = signal(false);
+
+  returnUrl: string = '';
+  private route = inject(ActivatedRoute)
+
+  ngOnInit(){
+    this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
+  }
 
   readonly loginForm = this.fb.group({
     email: ['', [Validators.required, Validators.email]],
@@ -39,7 +46,7 @@ export class Login {
     .login(userCredentials)
     .pipe(finalize(() => this.submitting.set(false)))
     .subscribe({
-      next: () => this.router.navigateByUrl('/'),
+      next: () => this.router.navigateByUrl(this.returnUrl),
       error: () => this.openErrorSnackBar('Incorrect email or password')
     });
   }
